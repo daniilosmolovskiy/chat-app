@@ -1,0 +1,45 @@
+import styled from 'styled-components'
+import Paper from "@material-ui/core/Paper";
+import OutlinedInput from "@material-ui/core/OutlinedInput";
+
+export const StyledPaper = styled(Paper)`
+margin-top: 15px;
+  padding: 15px;
+`;
+
+export const StyledForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+export const StyledChatForm = styled.form`
+  justify-content: center;
+  width: 100%;
+  display: flex;
+`;
+
+export const StyledInput = styled(OutlinedInput)`
+  margin: 10px 0;
+`;
+export const StyledChatInput = styled(OutlinedInput)`
+  width: 70%;
+`;
+
+export const MessageContainer = styled.div`
+  border-radius: 5px;
+  width: 90%;
+  margin: 10px auto;
+  background-color: #efdfff;
+  color: #a488ba;
+  padding: 5px;
+`;
+export const MessageText = styled.p`
+  margin: 0;
+`;
+export const MessageInfoContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  border-bottom: 1px solid rgba(172, 166, 177, 0.5);
+  margin-bottom: 15px;
+`;
