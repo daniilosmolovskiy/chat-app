@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 import socket from "../../socket";
 import Button from "@material-ui/core/Button";
 import { StyledPaper, StyledForm, StyledInput } from "../../style";
+import { initialState, reducer } from "../../Reducer/reducer";
 
 export const JoinBlock = props => {
-  const [roomId, setRoomId] = useState('');
-  const [userName, setUserName] = useState('');
+  
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const {roomId, userName} = state;
 
   const formSubmit = (e) => {
     e.preventDefault();
-    props.history.push(`/chat?username=${userName}&room=${roomId}`);
+    props.history.push(`/chat?username=${state.userName}&room=${state.roomId}`);
   };
 
   return (
@@ -17,14 +20,17 @@ export const JoinBlock = props => {
       <StyledForm
         onSubmit={(e) => {
           formSubmit(e)
-          socket.emit("joinRoom", {userName, roomId});
+          socket.emit("joinRoom", {roomId, userName});
         }}
       >
         <StyledInput
           type="text"
           placeholder="Room ID"
           onChange={(e) => {
-            setRoomId(e.target.value);
+            dispatch({
+              type: 'ADD_ROOMID',
+              payload: e.target.value,
+            })
           }}
         />
         <StyledInput
@@ -32,7 +38,10 @@ export const JoinBlock = props => {
           className="name"
           placeholder="Your Name"
           onChange={(e) => {
-            setUserName(e.target.value);
+            dispatch({type: 'ADD_USERNAME',
+            fieldName: 'userName',
+            payload: e.target.value,
+          })
           }}
         />
         <Button variant="contained" color="primary" type="submit">

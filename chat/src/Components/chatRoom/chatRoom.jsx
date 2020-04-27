@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useReducer } from "react";
 import Swal from "sweetalert2";
 import socket from "../../socket";
 import Button from "@material-ui/core/Button";
+import { initialState, reducer } from "../../Reducer/reducer";
+
 import {
   StyledPaper,
   StyledChatForm,
@@ -11,17 +13,19 @@ import {
   MessageText,
 } from "../../style";
 
-export const ChatRoom = props => {
-  const [names, setNames] = useState([""]);
-  const [message, setMessage] = useState("");
+export const ChatRoom = (props) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   socket.on("message", (message) => {
-    setNames([...names, message]);
+    dispatch({
+      type: "ADD_MESSAGE",
+      payload: message,
+    });
   });
 
   const submitMessage = () => {
-    if (message !== "") {
-      socket.emit("message", message);
+    if (state.message !== "") {
+      socket.emit("message", state.message);
     } else {
       Swal.fire({
         title: "Error!",
@@ -30,13 +34,13 @@ export const ChatRoom = props => {
         confirmButtonText: "OK",
       });
     }
-    setMessage("");
-    socket.emit("chatMessage", message);
+    dispatch({ type: "CLEAR_CURRENT_MESSAGE" });
+    socket.emit("chatMessage", state.message);
   };
 
   return (
     <StyledPaper>
-      {names.map((message, i) => {
+      {state.roomMessages.map((message, i) => {
         return (
           <MessageContainer key={i}>
             <MessageInfoContainer>
@@ -56,9 +60,12 @@ export const ChatRoom = props => {
         <StyledChatInput
           placeholder="Input message here.."
           type="text"
-          value={message}
+          value={state.message}
           onChange={(e) => {
-            setMessage(e.target.value);
+            dispatch({
+              type: "CURRENT_MESSAGE",
+              payload: e.target.value,
+            });
           }}
         />
         <Button variant="contained" color="primary" type="submit">
@@ -67,4 +74,4 @@ export const ChatRoom = props => {
       </StyledChatForm>
     </StyledPaper>
   );
-}
+};
