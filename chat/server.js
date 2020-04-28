@@ -17,7 +17,9 @@ io.on('connection', socket => {
 
     const user = userJoin(socket.id, userName, roomId)
     socket.join(user.room)
-    io.emit('message', formatMessage('admin', `Welcome, ${userName}`))
+
+    socket.emit('message', formatMessage('admin', `Welcome, ${userName}`))
+    
     socket.broadcast.to(user.room).emit('message', formatMessage('admin', `${userName} connected`));
 
   })
@@ -30,6 +32,7 @@ io.on('connection', socket => {
 
   socket.on('disconnect', () => {
     console.log('user disconnected')
+    socket.removeAllListeners();
   })
 })
 

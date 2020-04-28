@@ -17,6 +17,7 @@ export const ChatRoom = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   socket.on("message", (message) => {
+    console.log(message);
     dispatch({
       type: "ADD_MESSAGE",
       payload: message,
