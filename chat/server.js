@@ -36,6 +36,17 @@ io.on('connection', socket => {
   })
 })
 
-server.listen(process.env.PORT || 3000, function(){
-  console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+// server.listen(process.env.PORT || 3000, function(){
+//   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+// });
+const path = require('path');
+const port = process.env.PORT || 9999;
+const publicPath = path.join(__dirname, 'public');
+
+app.use(express.static(publicPath));
+app.get('*', (req, res) => {
+   res.sendFile(path.join(publicPath, 'index.html'));
+});
+app.listen(port, () => {
+   console.log('Server is up!');
 });
