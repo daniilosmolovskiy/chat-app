@@ -8,8 +8,8 @@ const io = require('socket.io')(server);
 
 const rooms = new Map();
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+app.get('/rooms', (req, res) => {
+  res.json(rooms);
 });
 
 io.on('connection', socket => {
