@@ -20,7 +20,7 @@ app.get('/rooms', (req, res) => {
   res.json(rooms);
 });
 
-io.on('connection', socket => {
+io.on('connect', socket => {
   socket.on('joinRoom', ({userName, roomId}) => {
 
     const user = userJoin(socket.id, userName, roomId)
@@ -48,7 +48,6 @@ io.on('connection', socket => {
 app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
   });
-  // app.listen(port);
 
 server.listen(port, function(){
   console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);

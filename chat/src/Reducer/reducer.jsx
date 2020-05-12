@@ -2,7 +2,7 @@ export const initialState = {
   roomId: '',
   userName: '',
   message: '',
-  roomMessages: ['']
+  roomMessages: []
 };
 
 export const reducer = (state, action) => {

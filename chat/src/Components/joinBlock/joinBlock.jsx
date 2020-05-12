@@ -1,12 +1,12 @@
-import React, { useReducer } from "react";
+import React, { useContext } from "react";
+import { GlobalState } from '../../App'
 import socket from "../../socket";
 import Button from "@material-ui/core/Button";
 import { StyledPaper, StyledForm, StyledInput } from "../../style";
-import { initialState, reducer } from "../../Reducer/reducer";
 
 export const JoinBlock = props => {
   
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const { state, dispatch } = useContext(GlobalState);
 
   const {roomId, userName} = state;
 
