@@ -2,7 +2,8 @@ export const initialState = {
   roomId: '',
   userName: '',
   message: '',
-  roomMessages: []
+  roomMessages: [],
+  isLogIn: false
 };
 
 export const reducer = (state, action) => {
@@ -21,6 +22,11 @@ export const reducer = (state, action) => {
       return {
         ...state,
         roomMessages: [...state.roomMessages, action.payload]
+      };
+    case 'LOGIN':
+      return {
+        ...state,
+        isLogIn: true
       };
     case 'CURRENT_MESSAGE':
       return {

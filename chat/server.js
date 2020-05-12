@@ -26,7 +26,8 @@ io.on('connect', socket => {
     const user = userJoin(socket.id, userName, roomId)
     socket.join(user.room)
 
-    socket.emit('message', formatMessage('admin', `Welcome, ${userName}`))
+
+    socket.emit('message', formatMessage('admin', `Welcome, ${userName}.`))
     
     socket.broadcast.to(user.room).emit('message', formatMessage('admin', `${userName} connected`));
 

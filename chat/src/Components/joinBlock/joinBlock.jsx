@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
 import { GlobalState } from '../../App'
+import Swal from "sweetalert2";
 import socket from "../../socket";
 import Button from "@material-ui/core/Button";
 import { StyledPaper, StyledForm, StyledInput } from "../../style";
+import {ChatRoom} from '../chatRoom/chatRoom'
 
 export const JoinBlock = props => {
   
@@ -12,11 +14,24 @@ export const JoinBlock = props => {
 
   const formSubmit = (e) => {
     e.preventDefault();
-    props.history.push(`/chat?username=${state.userName}&room=${state.roomId}`);
+    if(state.userName !== '' && state.roomId !== ''){
+      dispatch({
+        type: 'LOGIN'
+      })
+    } else {
+      Swal.fire({
+        title: "Error!",
+        text: "Room ID and Name need to be filled.",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
   };
 
   return (
-    <StyledPaper elevation={3}>
+    <>
+    {
+      !state.isLogIn ? <StyledPaper elevation={3}>
       <StyledForm
         onSubmit={(e) => {
           formSubmit(e)
@@ -48,6 +63,8 @@ export const JoinBlock = props => {
           GO!
         </Button>
       </StyledForm>
-    </StyledPaper>
+    </StyledPaper> : <ChatRoom />
+    }
+    </>
   );
 }

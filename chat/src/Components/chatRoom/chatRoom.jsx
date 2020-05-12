@@ -11,6 +11,7 @@ import {
   MessageContainer,
   MessageInfoContainer,
   MessageText,
+  StyledChatHeader
 } from "../../style";
 
 export const ChatRoom = (props) => {
@@ -19,6 +20,7 @@ export const ChatRoom = (props) => {
 
   useEffect(() => {
     socket.on("message", (message) => {
+      console.log(message)
       dispatch({
         type: "ADD_MESSAGE",
         payload: message,
@@ -42,6 +44,7 @@ export const ChatRoom = (props) => {
 
   return (
     <StyledPaper>
+      <StyledChatHeader>{state.roomId} room</StyledChatHeader>
       {state.roomMessages ? state.roomMessages.map((message, i) => {
         return (
           <MessageContainer key={i}>
