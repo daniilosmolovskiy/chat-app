@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useCallback } from "react";
 import { GlobalState } from '../../App'
 import Swal from "sweetalert2";
 import socket from "../../socket";
@@ -18,15 +18,16 @@ export const ChatRoom = (props) => {
   
   const { state, dispatch } = useContext(GlobalState);
 
-  useEffect(() => {
-    socket.on("message", (message) => {
-      console.log(message)
-      dispatch({
-        type: "ADD_MESSAGE",
+  const onMessage = React.useCallback((message) => {
+    dispatch({
+      type: "ADD_MESSAGE",
         payload: message,
-      });
     });
   }, [dispatch])
+  useEffect(() => {
+    socket.addEventListener("message", onMessage)
+    return () => socket.removeEventListener('message', onMessage)
+  }, [socket])
 
   const submitMessage = () => {
     if (state.message !== '') {
